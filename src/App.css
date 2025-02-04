@@ -1,0 +1,54 @@
+
+.footer-item {
+  position: relative;
+  display: inline-block;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.footer-item:hover {
+  transform: translateX(15px); 
+  color: #127512; 
+}
+
+.footer-item:hover::before {
+  content: '';
+  position: absolute;
+  left: -15px;
+  top: 50%;
+  width: 12px; 
+  height: 2px; 
+  background-color: #127512;
+  transform: translateY(-50%);
+}
+/* Slide Right Animation */
+@keyframes slide-right {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Slide Left Animation */
+@keyframes slide-left {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Apply animation to elements */
+.animate-slide-right {
+  animation: slide-right 1s ease-out forwards;
+}
+
+.animate-slide-left {
+  animation: slide-left 1s ease-out forwards;
+}

@@ -1,0 +1,16 @@
+@import "tailwindcss";
+/* @layer base {
+  @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap'); */
+  /* :root {
+    --font-superio: var(--superio-heading-font), 'Jost', sans-serif;
+    font-family: var(--font-superio);
+  } */
+/* } */
+
+/* .font-superio {
+  font-family: var(--font-superio);
+} */
+
+body {
+  font-family: 'Jost', sans-serif;
+}
