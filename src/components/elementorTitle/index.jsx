@@ -53,7 +53,7 @@ const JobListing = () => {
       </div>
 
       {/* Counter Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pb-[60px] text-center">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pb-[60px] pt-[80px] text-center">
         {counterData.map((counter, index) => (
           <div
             key={index}
