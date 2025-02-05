@@ -20,20 +20,9 @@
   background-color: #127512;
   transform: translateY(-50%);
 }
-/* Slide Right Animation */
-@keyframes slide-right {
-  0% {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
 
-/* Slide Left Animation */
-@keyframes slide-left {
+/* download sectiojn slide-right */
+@keyframes slideRight {
   0% {
     transform: translateX(-100%);
     opacity: 0;
@@ -44,11 +33,61 @@
   }
 }
 
-/* Apply animation to elements */
+@keyframes slideLeft {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 .animate-slide-right {
-  animation: slide-right 1s ease-out forwards;
+  animation: slideRight 1s ease-out;
 }
 
 .animate-slide-left {
-  animation: slide-left 1s ease-out forwards;
+  animation: slideLeft 1s ease-out;
 }
+
+
+
+/* Container and Image Styling */
+.image-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.slider-image {
+  transform: scale(1);
+ 
+}
+
+.image-container:hover .slider-image {
+  transform: scale(1.1); 
+  transition: transform 0.8s ease, opacity 0.8s ease; 
+  animation: image-zoom-fade 3s ease-in-out infinite;
+}
+
+@keyframes image-zoom-fade {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+}
+
+
+
+

@@ -1,123 +1,164 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../../assets/desk.jpg";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import Banner from "../Banner/banner";
 import { LuUserRound } from "react-icons/lu";
 import { HiBars3BottomRight } from "react-icons/hi2";
+import { Sidebar } from "../DrawerNavigation";
 
 const Navbar = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const handleMenuClick = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
   return (
     <>
       <div className="bg-[#e9eefa]">
-      <section className="max-w-screen-xl mx-auto p-5">
-        <div className="flex justify-between items-center">
-          <section className="w-[50%] xl:w-[68%]">
-            <div className="max-w-full h-auto xl:max-w-[24%]">
-              <img src={logo} alt="Logo" />
-            </div>
+        <section className="max-w-screen-xl mx-auto p-5">
+          <div className="flex justify-between items-center">
+            <section className="w-[50%] xl:w-[68%]">
+              <div className="max-w-full h-auto xl:max-w-[24%] cursor-pointer">
+                <img src={logo} alt="Logo" />
+              </div>
 
-            <nav className="mt-[7px] hidden xl:block">
-              <ul className="flex list-none">
-                <li className="mr-[22px]">
-                  <a
-                    href="#"
-                    className="text-[#202124] text-[15px] py-[12px] hover:text-[#0c720d]"
-                  >
-                    Home
-                  </a>
-                </li>
-                <li className="mr-[22px]">
-                  <a
-                    href="#"
-                    className="text-[#202124] text-[15px] py-[12px] hover:text-[#0c720d]"
-                  >
-                    About
-                  </a>
-                </li>
-                <li className="mr-[22px]">
-                  <a
-                    href="#"
-                    className="text-[#202124] text-[15px] py-[12px] hover:text-[#0c720d]"
-                  >
-                    Opportunity
-                  </a>
-                </li>
-                <li className="mr-[22px]">
-                  <a
-                    href="#"
-                    className="text-[#202124] text-[15px] py-[12px] hover:text-[#0c720d]"
-                  >
-                    Employers
-                  </a>
-                </li>
-                <li className="mr-[22px]">
-                  <a
-                    href="#"
-                    className="text-[#202124] text-[15px] py-[12px] hover:text-[#0c720d]"
-                  >
-                    Candidates
-                  </a>
-                </li>
-                <li className="mr-[22px]">
-                  <a
-                    href="#"
-                    className="text-[#202124] text-[15px] py-[12px] hover:text-[#0c720d]"
-                  >
-                    Pricing
-                  </a>
-                </li>
-                <li className="mr-[22px]">
-                  <a
-                    href="#"
-                    className="text-[#202124] text-[15px] py-[12px] hover:text-[#0c720d]"
-                  >
-                    Blog
-                  </a>
-                </li>
-                <li className="relative group">
-                  <a
-                    href="#"
-                    className="text-[#202124] text-[15px]  flex items-center gap-2 hover:text-[#0c720d]"
-                  >
-                    Contact
-                    <RiArrowDropDownLine size={20} />
-                  </a>
-                  <ul className="absolute left-0 hidden group-hover:block bg-white p-2 rounded-md shadow-lg list-none mt-2">
-                    <li className="py-2 px-3">
-                      <a
-                        href="#"
-                        className="text-[#333] block hover:bg-[#f1f1f1]"
-                      >
-                        Important Contacts
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </nav>
-          </section>
+              <nav className="mt-[7px] hidden xl:block">
+                <ul className="flex list-none">
+                  <li className="mr-[22px]">
+                    <a
+                      href="#"
+                      className="text-[#202124] text-[15px] py-[12px] hover:text-[#0c720d]"
+                    >
+                      Home
+                    </a>
+                  </li>
+                  <li className="mr-[22px]">
+                    <a
+                      href="#"
+                      className="text-[#202124] text-[15px] py-[12px] hover:text-[#0c720d]"
+                    >
+                      About
+                    </a>
+                  </li>
+                  <li className="mr-[22px]">
+                    <a
+                      href="#"
+                      className="text-[#202124] text-[15px] py-[12px] hover:text-[#0c720d]"
+                    >
+                      Opportunity
+                    </a>
+                  </li>
+                  <li className="mr-[22px]">
+                    <a
+                      href="#"
+                      className="text-[#202124] text-[15px] py-[12px] hover:text-[#0c720d]"
+                    >
+                      Employers
+                    </a>
+                  </li>
+                  <li className="mr-[22px]">
+                    <a
+                      href="#"
+                      className="text-[#202124] text-[15px] py-[12px] hover:text-[#0c720d]"
+                    >
+                      Candidates
+                    </a>
+                  </li>
+                  <li className="mr-[22px]">
+                    <a
+                      href="#"
+                      className="text-[#202124] text-[15px] py-[12px] hover:text-[#0c720d]"
+                    >
+                      Pricing
+                    </a>
+                  </li>
+                  <li className="mr-[22px]">
+                    <a
+                      href="#"
+                      className="text-[#202124] text-[15px] py-[12px] hover:text-[#0c720d]"
+                    >
+                      Blog
+                    </a>
+                  </li>
+                  {/* <li className="relative group">
+                    <a
+                      href="#"
+                      className="text-[#202124] text-[15px] flex items-center gap-2 hover:text-[#0c720d]"
+                    >
+                      Contact
+                      <RiArrowDropDownLine
+                        size={20}
+                        className="transition-transform duration-300 ease-in-out transform group-hover:rotate-180"
+                      />
+                    </a>
 
-          <section className="items-center gap-5  xl:flex hidden">
-            <button className="w-[165px] h-[50px] text-[#0c720d] bg-[#0c720d12] font-bold text-[15px] hover:text-white hover:bg-[#127512] rounded-[6px] py-2 px-[30px]">
-              Login/Register
-            </button>
-            <button className="h-[50px] text-white bg-[#0c720d] font-bold text-[15px] rounded-[8px] py-2 px-[40px]">
-              Job Post
-            </button>
-            <IoMdNotificationsOutline size={20} className="mb-[7px]" />
-          </section>
+                    <ul className="absolute left-0 hidden group-hover:block bg-white p-2 rounded-md shadow-lg list-none mt-2">
+                      <li className="py-2 px-3">
+                        <a
+                          href="#"
+                          className="text-[#333] block hover:bg-[#f1f1f1]"
+                        >
+                          Important Contacts
+                        </a>
+                      </li>
+                    </ul>
+                  </li> */}
+                  <li className="relative group">
+                    <a
+                      href="#"
+                      className="text-[#202124] text-[15px] flex items-center gap-2 hover:text-[#0c720d]"
+                    >
+                      Contact
+                      <RiArrowDropDownLine
+                        size={20}
+                        className="transition-transform duration-300 ease-in-out transform group-hover:rotate-180"
+                      />
+                    </a>
 
-          <section className="flex items-center gap-5 xl:hidden ">
-            <LuUserRound className="inline-block leading-[1] text-[24px] cursor-pointer" />
-            <IoMdNotificationsOutline className="inline-block leading-[1] text-[24px] cursor-pointer" />
-            <HiBars3BottomRight className="inline-block leading-[1] text-[24px] cursor-pointer" />
-          </section>
-        </div>
+                    <ul className="absolute left-0 hidden group-hover:block group-focus-within:block bg-white p-2 rounded-md shadow-lg list-none mt-2 w-48 sm:w-60 border-t-2 border-[#0c720d]">
+                      <li className="py-2 px-3">
+                        <a
+                          href="#"
+                          className="text-[#333] block hover:text-[#0c720d] rounded-md transition-colors duration-200"
+                        >
+                          Important Contacts
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
 
-        <Banner />
-      </section>
+
+
+
+                </ul>
+              </nav>
+            </section>
+
+            <section className="items-center gap-5  xl:flex hidden">
+              <button className="w-[165px] h-[50px] text-[#0c720d] bg-[#0c720d12] font-bold  cursor-pointer text-[15px] hover:text-white hover:bg-[#127512] rounded-[6px] py-2 px-[30px]">
+                Login/Register
+              </button>
+              <button className="h-[50px] text-white bg-[#0c720d] font-bold text-[15px]  cursor-pointer rounded-[8px] py-2 px-[40px]">
+                Job Post
+              </button>
+              <IoMdNotificationsOutline size={20} className="mb-[7px] cursor-pointer" />
+            </section>
+
+            <section className="flex items-center gap-5 xl:hidden ">
+              <LuUserRound className="inline-block leading-[1] text-[24px] cursor-pointer" />
+              <IoMdNotificationsOutline className="inline-block leading-[1] text-[24px] cursor-pointer" />
+              <HiBars3BottomRight className="inline-block leading-[1] text-[24px] cursor-pointer" onClick={handleMenuClick} />
+            </section>
+          </div>
+
+          <Banner />
+        </section>
       </div>
+
+      {/* Sidebar component */}
+      <Sidebar isOpen={isSidebarOpen} onClose={handleMenuClick} />
+
     </>
   );
 };

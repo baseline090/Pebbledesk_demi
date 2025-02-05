@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const articlesData = [
   {
@@ -37,8 +39,58 @@ const articlesData = [
 ];
 
 const NewsArticles = () => {
+  const [isVisibleLeft, setIsVisibleLeft] = useState(false);
+  const [isVisibleRight, setIsVisibleRight] = useState(false);
+
+  // Function to handle intersection observer when the section comes into view
+  const handleObserver = (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        if (entry.target.id === "left-section") {
+          setIsVisibleLeft(true);
+        } else if (entry.target.id === "right-section") {
+          setIsVisibleRight(true);
+        }
+      }
+    });
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleObserver, { threshold: 0.5 });
+    
+    const leftSection = document.getElementById("left-section");
+    const rightSection = document.getElementById("right-section");
+
+    if (leftSection) observer.observe(leftSection);
+    if (rightSection) observer.observe(rightSection);
+
+    return () => {
+      if (leftSection) observer.unobserve(leftSection);
+      if (rightSection) observer.unobserve(rightSection);
+    };
+  }, []);
+
+
+
+  const [isAOSInitialized, setIsAOSInitialized] = useState(false);
+
+  useEffect(() => {
+    if (!isAOSInitialized) {
+      AOS.init({
+        duration: 1000, 
+        easing: "ease-out", 
+        once: false, // Ensure the animation only triggers once per element
+        offset: 100, // Start animation 100px before the element enters the viewport
+      });
+      setIsAOSInitialized(true); // Flag that AOS has been initialized
+    }
+
+    return () => {
+      // Cleanup AOS when component is unmounted
+      AOS.refresh();
+    };
+  }, [isAOSInitialized]);
   return (
-    // pt-[75px] pb-[60px]
     <>
       <section className="w-full bg-[#ecedf2]">
         <div className="container mx-auto max-w-screen-xl pt-[75px] pb-[60px]">
@@ -117,101 +169,110 @@ const NewsArticles = () => {
         </div>
       </section>
 
-    {/*-------- Download Section -----------*/}
-<section className="w-full flex items-center justify-center pt-[70px] pb-[60px] px-0">
-  <div className="flex justify-evenly max-w-screen-xl mx-auto">
-    <div className="w-full md:w-1/3 p-4 hidden md:block animate-slide-right">
-      <div className="w-full h-auto">
-        <img
-          src="https://dianeo.sparktechwp.com/wp-content/uploads/2021/03/app.jpg.webp"
-          alt="App Image"
-          className="w-[616px] h-[651px] object-cover"
-        />
-      </div>
-    </div>
-
-    {/* Content Column */}
-    <div className="w-full md:w-1/3 p-4 animate-slide-left">
-      <div className="mt-[50%]">
-        <h2 className="text-[18px] font-[500] text-[#1967d2] mb-4 font-jost">
-          DOWNLOAD & ENJOY
-        </h2>
-
-        <h3 className="text-[40px] leading-[1.3em] font-[500] font-jost text-gray-800 mb-4">
-          Get the Superio Job Search App
-        </h3>
-
-        <p className="text-[15px] font-Helvetica text-[#696969] mb-[20px]">
-          Search through millions of jobs and find the right fit. Simply swipe right to apply.
-        </p>
-
-        {/* App Store Buttons */}
-        <div className="flex gap-4 mt-4">
-          {/* Apple Store Button */}
-          <a
-            href="#"
-            className="flex items-center bg-[#202124] text-white py-2 px-4 rounded-lg shadow-md hover:bg-[#127512] w-[191px] h-[60px] transition"
-          >
-            <div className="mr-2">
-              <i className="fab fa-apple text-2xl"></i>
-            </div>
-            <div>
-              <div className="text-sm">Download on the</div>
-              <div className="text-lg font-semibold">Apple Store</div>
-            </div>
-          </a>
-
-          {/* Google Play Store Button */}
-          <a
-            href="#"
-            className="flex items-center bg-[#202124] text-white py-2 px-4 rounded-lg shadow-md hover:bg-[#127512]  w-[177px] h-[60px] transition"
-          >
-            <div className="mr-2">
-              <i className="fab fa-google-play text-2xl"></i>
-            </div>
-            <div>
-              <div className="text-sm">Get it on</div>
-              <div className="text-lg font-semibold">Google Play</div>
-            </div>
-          </a>
+      {/*-------- Download Section -----------*/}
+      <section className="w-full flex items-center justify-center pt-[70px] pb-[60px] px-0">
+      <div className="flex justify-evenly max-w-screen-xl mx-auto">
+        {/* Left Column */}
+        <div
+          id="left-section"
+          className={`w-full md:w-1/3 p-4 hidden md:block ${isVisibleRight ? "animate-slide-right" : ""}`}
+        >
+          <div className="w-full h-auto">
+            <img
+              src="https://dianeo.sparktechwp.com/wp-content/uploads/2021/03/app.jpg.webp"
+              alt="App Image"
+              className="w-[616px] h-[651px] object-cover"
+            />
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
 
+        {/* Right Column */}
+        <div
+          id="right-section"
+          className={`w-full md:w-1/3 p-4 ${isVisibleLeft ? "animate-slide-left" : ""}`}
+        >
+          <div className="mt-[50%] sm-mt[10%]">
+            <h2 className="text-[18px] font-[500] text-[#1967d2] mb-4 font-jost">
+              DOWNLOAD & ENJOY
+            </h2>
 
-      {/* Recruiting Section */}
-      <section
-        className="container max-w-screen-xl mx-auto bg-cover bg-center rounded-[8px] "
-        style={{
-          backgroundImage:
-            "url('https://dianeo.sparktechwp.com/wp-content/uploads/2021/03/group8.jpg.webp')",
-        }}
-      >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          {/* Content Section */}
-          <div class="container mx-auto ">
-            <div class="p-[45px_60px_50px]">
-              <h2 class="text-[30px] font-[500] text-[#202124] mb-4">
-                Recruiting?
-              </h2>
+            <h3 className="text-[40px] leading-[1.3em] font-[500] font-jost text-gray-800 mb-4">
+              Get the Superio Job Search App
+            </h3>
 
-              <p class="text-[#696969] mb-6 font-sans text-[15px] font-normal leading-[1.75]">
-                Advertise your jobs to millions of monthly users and search 15.8
-                million CVs in our database.
-              </p>
+            <p className="text-[15px] font-Helvetica text-[#696969] mb-[20px]">
+              Search through millions of jobs and find the right fit. Simply swipe right to apply.
+            </p>
 
+            {/* App Store Buttons */}
+            <div className="flex gap-4 mt-4">
+              {/* Apple Store Button */}
               <a
                 href="#"
-                class="inline-block text-white bg-[#127512] border border-[#127512] rounded-lg px-10 py-4 text-center shadow-md hover:bg-white hover:text-[#127512] hover:border-[#127512] focus:bg-white focus:text-[#127512] focus:border-[#127512] transition"
+                className="flex items-center bg-[#202124] text-white py-2 px-4 rounded-lg shadow-md hover:bg-[#127512] w-[191px] h-[60px] transition"
               >
-                Start Recruiting Now
+                <div className="mr-2">
+                  <i className="fab fa-apple text-2xl"></i>
+                </div>
+                <div>
+                  <div className="text-sm">Download on the</div>
+                  <div className="text-lg font-semibold">Apple Store</div>
+                </div>
+              </a>
+
+              {/* Google Play Store Button */}
+              <a
+                href="#"
+                className="flex items-center bg-[#202124] text-white py-2 px-4 rounded-lg shadow-md hover:bg-[#127512] w-[177px] h-[60px] transition"
+              >
+                <div className="mr-2">
+                  <i className="fab fa-google-play text-2xl"></i>
+                </div>
+                <div>
+                  <div className="text-sm">Get it on</div>
+                  <div className="text-lg font-semibold">Google Play</div>
+                </div>
               </a>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
+
+
+
+      {/* Recruiting Section */}
+      <section
+      className="container max-w-screen-xl mx-auto bg-cover bg-center rounded-[8px]"
+      style={{
+        backgroundImage:
+          "url('https://dianeo.sparktechwp.com/wp-content/uploads/2021/03/group8.jpg.webp')",
+      }}
+      data-aos="fade-up" // AOS animation for fade up
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        {/* Content Section */}
+        <div className="container mx-auto">
+          <div className="p-[45px_60px_50px]">
+            <h2 className="text-[30px] font-[500] text-[#202124] mb-4">
+              Recruiting?
+            </h2>
+
+            <p className="text-[#696969] mb-6 font-sans text-[15px] font-normal leading-[1.75]">
+              Advertise your jobs to millions of monthly users and search 15.8
+              million CVs in our database.
+            </p>
+
+            <a
+              href="#"
+              className="inline-block text-white bg-[#127512] border border-[#127512] rounded-lg px-10 py-4 text-center shadow-md hover:bg-white hover:text-[#127512] hover:border-[#127512] focus:bg-white focus:text-[#127512] focus:border-[#127512] transition"
+            >
+              Start Recruiting Now
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
     </>
   );
 };

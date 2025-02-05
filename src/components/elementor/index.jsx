@@ -1,6 +1,7 @@
-import React from "react"
-import { Briefcase, MapPin, DollarSign } from "lucide-react"
-
+import React, { useEffect, useState } from "react";
+import { Briefcase, MapPin, DollarSign } from "lucide-react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const jobs = [
   {
@@ -49,7 +50,7 @@ const jobs = [
     id: "4",
     company: {
       logo: "N",
-      bgColor: "#DC2626", // red-600
+      bgColor: "#DC2626",
     },
     title: "Assistant / Store Keeper",
     department: "Automotive Jobs, Marketing",
@@ -63,7 +64,7 @@ const jobs = [
     id: "5",
     company: {
       logo: "A",
-      bgColor: "#111827", // gray-900
+      bgColor: "#111827",
     },
     title: "Group Marketing Manager",
     department: "Customer, Marketing",
@@ -77,7 +78,7 @@ const jobs = [
     id: "6",
     company: {
       logo: "A",
-      bgColor: "#111827", // gray-900
+      bgColor: "#111827",
     },
     title: "Product Sales Specialist",
     department: "Project Management",
@@ -87,26 +88,26 @@ const jobs = [
     categories: ["Internships"],
     isFeatured: true,
   },
-]
+];
 
 const JobCard = ({ job }) => {
   return (
-    <div className="border border-gray-200 rounded-lg p-8 bg-white">
-    <div className="flex items-start justify-between">
-      <div className="flex gap-4">
-        <div
-          className="w-12 h-12 rounded-lg flex items-center justify-center text-white font-semibold"
-          style={{ backgroundColor: job.company.bgColor }}
-        >
-          {job.company.logo}
-        </div>
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <h3 className="font-semibold">{job.title}</h3>
-            {job.isFeatured && (
-              <span className="text-xs font-medium  py-1 text-green-500 rounded-full">Featured</span>
-            )}
+    <div className="border border-gray-200 rounded-lg p-8 bg-white" data-aos="fade-up">
+      <div className="flex items-start justify-between">
+        <div className="flex gap-4">
+          <div
+            className="w-12 h-12 rounded-lg flex items-center justify-center text-white font-semibold"
+            style={{ backgroundColor: job.company.bgColor }}
+          >
+            {job.company.logo}
           </div>
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <h3 className="font-semibold">{job.title}</h3>
+              {job.isFeatured && (
+                <span className="text-xs font-medium py-1 text-green-500 rounded-full">Featured</span>
+              )}
+            </div>
             <div className="flex items-center gap-4 text-sm text-gray-500">
               <span className="flex items-center gap-1">
                 <Briefcase className="w-4 h-4" />
@@ -122,23 +123,23 @@ const JobCard = ({ job }) => {
               </span>
             </div>
             <div className="flex gap-2 mt-4">
-        {job.categories.map((category) => (
-          <span
-            key={category}
-            className={`text-xs px-3 py-1 rounded-full font-medium ${
-              category === "Jobs"
-                ? "bg-green-100 text-green-700"
-                : category === "Urgent"
-                  ? "bg-orange-100 text-yellow-500"
-                  : category === "Tenders"
-                    ? "bg-green-100 text-green-700"
-                    : "bg-green-100 text-green-700"
-            }`}
-          >
-            {category}
-          </span>
-        ))}
-      </div>
+              {job.categories.map((category) => (
+                <span
+                  key={category}
+                  className={`text-xs px-3 py-1 rounded-full font-medium ${
+                    category === "Jobs"
+                      ? "bg-green-100 text-green-700"
+                      : category === "Urgent"
+                        ? "bg-orange-100 text-yellow-500"
+                        : category === "Tenders"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-green-100 text-green-700"
+                  }`}
+                >
+                  {category}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
         <button className="text-gray-400 hover:text-gray-600">
@@ -158,38 +159,53 @@ const JobCard = ({ job }) => {
           </svg>
         </button>
       </div>
-   
     </div>
-  )
-}
+  );
+};
 
 const FeaturedJobs = () => {
+  const [isAOSInitialized, setIsAOSInitialized] = useState(false);
+
+  useEffect(() => {
+    if (!isAOSInitialized) {
+      // Initialize AOS only once on first render
+      AOS.init({
+        duration: 1000, // Animation duration
+        easing: 'ease-out', // Easing style for smoothness
+        once: true, // Ensure the animation only triggers once per element
+        offset: 100, // Start animation 100px before the element enters the viewport
+      });
+      setIsAOSInitialized(true); // Flag that AOS has been initialized
+    }
+
+    return () => {
+      // Cleanup AOS when component is unmounted
+      AOS.refresh();
+    };
+  }, [isAOSInitialized]);
+
   return (
     <section className="max-w-screen-xl mx-auto p-5">
-    <div className="container mx-auto py-12 ">
-      <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold mb-2">Featured Jobs</h2>
-        <p className="text-gray-600">Know your worth and find the job that qualify your life</p>
-      </div>
+      <div className="container mx-auto py-12">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold mb-2">Featured Jobs</h2>
+          <p className="text-gray-600">Know your worth and find the job that qualifies your life</p>
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
-        {jobs.map((job) => (
-          <JobCard key={job.id} job={job} />
-        ))}
-      </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {jobs.map((job) => (
+            <JobCard key={job.id} job={job} />
+          ))}
+        </div>
 
-      <div className="text-center mt-10 pb-[85px]">
-        <button className="hover:bg-white px-8 py-3 rounded-md bg-green-700 transition-colors  hover:border-1 hover:border-green-700 hover:text-green-700 text-white">
-          Load More Listing
-        </button>
+        <div className="text-center mt-10 pb-[85px]">
+          <button className="hover:bg-white px-8 py-3 rounded-md bg-green-700 transition-colors hover:border-1 hover:border-green-700 hover:text-green-700 text-white">
+            Load More Listing
+          </button>
+        </div>
       </div>
-    </div>
     </section>
-  )
-}
+  );
+};
 
-export default FeaturedJobs
-
-
-
-
+export default FeaturedJobs;
